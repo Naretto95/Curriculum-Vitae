@@ -1,0 +1,140 @@
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper]{twentysecondcv} % a4paper for A4
+
+%----------------------------------------------------------------------------------------
+%	 PERSONAL INFORMATION
+%----------------------------------------------------------------------------------------
+
+% If you don't need one or more of the below, just remove the content leaving the command, e.g. \cvnumberphone{}
+
+\profilepic{ProfilePicture.jpg} % Profile picture
+
+\cvname{Lilian Naretto} % Your name
+\cvjobtitle{DevSecOps engineer} % Job title/career
+
+\cvdate{16 February 1999} % Date of birth
+\cvaddress{Eaubonne, France} % Short address/location, use \newline if more than 1 line is required
+\cvnumberphone{06 67 54 27 46} % Phone number
+\cvmail{narettolilian@hotmail.fr}
+\cvsite{\href{https://otteran.com/}{\texttt{otteran.com}} | \href{https://www.linkedin.com/in/lilian-naretto/}{\texttt{linkedin.com}}}
+\cvsitebis{\href{https://github.com/Naretto95}{\texttt{github.com/Naretto95}}}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	 ABOUT ME
+%----------------------------------------------------------------------------------------
+
+%\aboutme{Curious and passionate, my career is punctuated with experiences that have allowed me to acquire many skills.\\ } % To have no About Me section, just remove all the text and leave \aboutme{}
+
+%----------------------------------------------------------------------------------------
+%	 SKILLS
+%----------------------------------------------------------------------------------------
+
+% Skill bar section, each skill must have a value between 0 an 6 (float)
+\skills{{Java/4},{Powershell \& DSC/5},{Ansible \& Bash /5.5},{Terraform/5},{HTML \& CSS/5},{C \& C++/4},{Python \& Django/5},{Git \& Gitlab/5}, {Docker \& LXC/5}, {ESXI \& Proxmox/5}}
+
+%------------------------------------------------
+
+\skillsbis{{English/5},{Spanish/2.5}}
+%----------------------------------------------------------------------------------------
+
+\makeprofile % Print the sidebar
+%----------------------------------------------------------------------------------------
+%	 INTERESTS
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	 EDUCATION
+%----------------------------------------------------------------------------------------
+
+\cvsection{Education}
+\\
+
+\begin{twenty} % Environment for a list with descriptions
+	\twentyitem{2017-2022}{Master of science in engineering}{CY Cergy Paris University}{Computer Science - Major in cybersecurity.}
+	\twentyitem{2017-2020}{Bachelor's degree}{CY Cergy Paris University}{Dual degree in computer science.}
+	\twentyitem{2015-2017}{High school scientific diploma}{Jean Jaurès high school - Argenteuil}{ISN specialty (Computer Science and Digital Sciences).}
+	%\twentyitem{<dates>}{<title>}{<location>}{<description>}
+\end{twenty}
+
+%----------------------------------------------------------------------------------------
+%	 PUBLICATIONS
+%----------------------------------------------------------------------------------------
+
+\cvsection{Projects}
+\\
+
+\begin{twenty} % Environment for a short list with no descriptions
+    \twentyitem{2025-20XX}{HomeLab - Ansible/Gitlab}{}{Deployment of my own private homelab.}
+    \twentyitem{2022-2023}{OtterVault - Django}{Otteran}{Asset management tool with vulnerability detection, alerts, reporting and analytics to strengthen software security.\\ \href{https://ottervault.otteran.com/}{\texttt{ottervault.otteran.com}}}
+	\twentyitem{2015-20XX}{Others}{}{See on my \href{https://otteran.com/}{\texttt{website}} / \href{https://github.com/Naretto95}{\texttt{github}}.}
+	%\twentyitemshort{<dates>}{<title/description>}
+\end{twenty}
+
+%----------------------------------------------------------------------------------------
+%	 AWARDS
+%----------------------------------------------------------------------------------------
+
+\cvsection{Professional experiences}
+\\
+
+\begin{twenty} % Environment for a list with descriptions
+    \twentyitem{08/01/24}{DevSecOps IT Engineer (Current)}{Thales}{
+    - Deploy infrastructure using various tools: PowerShell DSC, Terraform, Ansible, Bash, GitLab, Docker, etc.\\
+    - Automate the deployment of complete Windows and Linux environments, including Active Directory (AD), GPOs, DNS, DNS relays, RADIUS/Proxy RADIUS authentication services, security components, and more.\\
+    - Provisioning and Managing Virtual Machines with Terraform on Vsphere and Proxmox Using an Infrastructure as Code Approach.\\
+    - Ensure the reliability and proper operation of the production infrastructure.\\
+    - Design and develop Ansible automations for the complete deployment of IT infrastructures.\\
+    - Implement automated deployments through GitLab and Docker-based CI/CD pipelines to ensure fast and reliable production releases.}
+    \twentyitem{2022-2023}{Founder | Self-employed (1 year 3 months)}{Otteran}{- Founded and managed a solo software development company.\\
+    - Main project: OtterVault, a solution designed to detect security vulnerabilities in IT assets and software.\\
+    - Managed the complete deployment of OtterVault.}
+    \twentyitem{2021-2022}{DevSecOps Engineer | Cybersecurity (1 year 6 months)}{Idemia}{- Developed a software and hardware asset inventory solution for projects using the Django framework (project name: Minotaur).\\
+    - Implemented DevSecOps practices, security hardening, and penetration testing activities on Minotaur.\\
+    - Set up continuous deployment of the application using various tools: Jenkins, Nginx, etc., along with code analysis using SonarQube and Nexus IQ.\\
+    - Designed and implemented the complete PostgreSQL database infrastructure.\\
+    - Created an AD FS instance and integrated Minotaur into Idemia’s Active Directory environment.}
+\end{twenty}
+
+%----------------------------------------------------------------------------------------
+%	 OTHER INFORMATION
+%----------------------------------------------------------------------------------------
+
+\cvsection{Certifications}
+
+\begin{twenty} % Environment for a short list with no descriptions
+    \twentyitem{2022}{TOEIC - Listening and Reading (910)}{ETS}{\href{https://drive.google.com/file/d/1s-YZ9WWBkpB6frxmiLPDZszAGn-aqTe3/view?usp=drive_link}{\texttt{Toeic Score}}}
+    \twentyitem{2022}{Microsoft Certified: Security, Compliance}{Microsoft}{\href{https://www.credly.com/badges/ccb93853-5ae8-42b0-a3b2-0beb00b1491d?source=linked_in_profile}{\texttt{Credly.com}}}
+\end{twenty}
+
+
+%----------------------------------------------------------------------------------------
+%	 SECOND PAGE EXAMPLE
+%----------------------------------------------------------------------------------------
+
+%\newpage % Start a new page
+
+%\makeprofile % Print the sidebar
+
+%\section{Other information}
+
+%\subsection{Review}
+
+%Alice approaches Wonderland as an anthropologist, but maintains a strong sense of noblesse oblige that comes with her class status. She has confidence in her social position, education, and the Victorian virtue of good manners. Alice has a feeling of entitlement, particularly when comparing herself to Mabel, whom she declares has a ``poky little house," and no toys. Additionally, she flaunts her limited information base with anyone who will listen and becomes increasingly obsessed with the importance of good manners as she deals with the rude creatures of Wonderland. Alice maintains a superior attitude and behaves with solicitous indulgence toward those she believes are less privileged.
+
+%\section{Other information}
+
+%\subsection{Review}
+
+%Alice approaches Wonderland as an anthropologist, but maintains a strong sense of noblesse oblige that comes with her class status. She has confidence in her social position, education, and the Victorian virtue of good manners. Alice has a feeling of entitlement, particularly when comparing herself to Mabel, whom she declares has a ``poky little house," and no toys. Additionally, she flaunts her limited information base with anyone who will listen and becomes increasingly obsessed with the importance of good manners as she deals with the rude creatures of Wonderland. Alice maintains a superior attitude and behaves with solicitous indulgence toward those she believes are less privileged.
+
+%----------------------------------------------------------------------------------------
+
+\end{document} 
