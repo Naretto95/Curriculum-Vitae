@@ -4,13 +4,17 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[a4paper]{twentysecondcv} % a4paper for A4
+\documentclass[a4paper]{../shared/cv} % a4paper for A4
 
 %----------------------------------------------------------------------------------------
 %	 PERSONAL INFORMATION
 %----------------------------------------------------------------------------------------
 
-\profilepic{ProfilePicture.jpg} % Profile picture
+\profilepic{../shared/ProfilePicture.jpg} % Profile picture
+
+% Localize the sidebar section labels (class defaults to English)
+\renewcommand{\cvskillslabel}{Compétences}
+\renewcommand{\cvlanguageslabel}{Langues}
 
 \cvname{Lilian Naretto} % Your name
 \cvjobtitle{Ingénieur DevSecOps} % Job title/career
@@ -61,21 +65,21 @@
 \end{twenty}
 
 %----------------------------------------------------------------------------------------
-%	 PUBLICATIONS
+%	 PROJETS
 %----------------------------------------------------------------------------------------
 
 \cvsection{Projets}
 \\
 
 \begin{twenty} % Environment for a short list with no descriptions
-    \twentyitem{2025-20XX}{HomeLab - Ansible/Gitlab}{}{Projet de déploiement complet d'un HomeLab personnel.}
-    \twentyitem{2022-2023}{OtterVault - Django}{Otteran}{Outil de gestion d'actifs avec détection de vulnérabilités, alertes, rapports et analyses pour renforcer la sécurité logicielle.\\ \href{https://ottervault.otteran.com/}{\texttt{ottervault.otteran.com}}}
+	\twentyitem{2025-20XX}{HomeLab - Ansible/Gitlab}{}{Projet de déploiement complet d'un HomeLab personnel.}
+	\twentyitem{2022-2023}{OtterVault - Django}{Otteran}{Outil de gestion d'actifs avec détection de vulnérabilités, alertes, rapports et analyses pour renforcer la sécurité logicielle.\\ \href{https://ottervault.otteran.com/}{\texttt{ottervault.otteran.com}}}
 	\twentyitem{2015-20XX}{Autres}{}{Voir sur mon \href{https://otteran.com/}{\texttt{site web}} / \href{https://github.com/Naretto95}{\texttt{github}}.}
 	%\twentyitemshort{<dates>}{<title/description>}
 \end{twenty}
 
 %----------------------------------------------------------------------------------------
-%	 AWARDS
+%	 EXPÉRIENCES PROFESSIONNELLES
 %----------------------------------------------------------------------------------------
 
 \cvsection{Expériences professionnelles}
@@ -102,7 +106,7 @@
 \end{twenty}
 
 %----------------------------------------------------------------------------------------
-%	 OTHER INFORMATION
+%	 CERTIFICATIONS
 %----------------------------------------------------------------------------------------
 
 \cvsection{Certifications}
@@ -127,12 +131,6 @@
 
 %Alice approaches Wonderland as an anthropologist, but maintains a strong sense of noblesse oblige that comes with her class status. She has confidence in her social position, education, and the Victorian virtue of good manners. Alice has a feeling of entitlement, particularly when comparing herself to Mabel, whom she declares has a ``poky little house," and no toys. Additionally, she flaunts her limited information base with anyone who will listen and becomes increasingly obsessed with the importance of good manners as she deals with the rude creatures of Wonderland. Alice maintains a superior attitude and behaves with solicitous indulgence toward those she believes are less privileged.
 
-%\section{Other information}
-
-%\subsection{Review}
-
-%Alice approaches Wonderland as an anthropologist, but maintains a strong sense of noblesse oblige that comes with her class status. She has confidence in her social position, education, and the Victorian virtue of good manners. Alice has a feeling of entitlement, particularly when comparing herself to Mabel, whom she declares has a ``poky little house," and no toys. Additionally, she flaunts her limited information base with anyone who will listen and becomes increasingly obsessed with the importance of good manners as she deals with the rude creatures of Wonderland. Alice maintains a superior attitude and behaves with solicitous indulgence toward those she believes are less privileged.
-
 %----------------------------------------------------------------------------------------
 
-\end{document} 
+\end{document}

@@ -1,4 +1,4 @@
-\ProvidesClass{twentysecondcv}[2017/01/08 CV class]
+\ProvidesClass{cv}[2017/01/08 CV class]
 \LoadClass{article}
 \NeedsTeXFormat{LaTeX2e}
 
@@ -17,6 +17,8 @@
 \RequirePackage{pgffor}
 \RequirePackage{marvosym}
 \RequirePackage{parskip}
+\RequirePackage[utf8]{inputenc} % Required for inputting international characters
+\RequirePackage[default]{raleway}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
@@ -25,15 +27,11 @@
 %	 COLOURS
 %----------------------------------------------------------------------------------------
 
-\definecolor{white}{RGB}{255,255,255}
+% "white" is already provided by xcolor; only the custom palette needs defining
 \definecolor{gray}{HTML}{333333}
 \definecolor{sidecolor}{HTML}{E7E7E7}
 \definecolor{mainblue}{HTML}{0E5484}
 \definecolor{maingray}{HTML}{B9B9B9}
-\usepackage[utf8]{inputenc} % Required for inputting international characters
-\usepackage[T1]{fontenc} % Output font encoding for international characters
-
-\usepackage[default]{raleway}
 
 \renewcommand*\familydefault{\sfdefault} % Force the sans-serif version of any font used
 
@@ -59,92 +57,94 @@
 
 \newlength{\TotalSectionLength} % Define a new length to hold the remaining line width after the section title is printed
 \newlength{\SectionTitleLength} % Define a new length to hold the width of the section title
+
+% Shared width calculation for \profilesection and \cvsection: measures #1,
+% then sets \TotalSectionLength to the line width remaining after it (minus
+% the #2 fudge factor each rule needs to avoid an overfull box warning)
+\newcommand\@cvsectionwidth[2]{%
+	\settowidth{\SectionTitleLength}{#1}%
+	\setlength{\TotalSectionLength}{\linewidth}%
+	\addtolength{\TotalSectionLength}{-\SectionTitleLength}%
+	\addtolength{\TotalSectionLength}{#2}%
+}
+
 \newcommand{\profilesection}[1]{
-    \settowidth{\SectionTitleLength}{\Large #1}%
-    \setlength{\TotalSectionLength}{\linewidth}%
-    \addtolength{\TotalSectionLength}{-\SectionTitleLength}%
-    \addtolength{\TotalSectionLength}{-2pt} % optional small adjustment
+    \@cvsectionwidth{\Large #1}{-2pt} % optional small adjustment
     \vspace{8pt}%
     \noindent
     \begin{tikzpicture}[baseline=(textnode.base)]
         % Section title node
         \node[draw=mainblue, line width=1pt, fill=white, inner sep=3pt] (textnode) {\Large \textcolor{black!80}{#1}};
         % Black horizontal line starting at the right edge of the box
-        \draw[black!80, line width=1pt] 
+        \draw[black!80, line width=1pt]
             ([xshift=2pt]textnode.east) -- ++(\TotalSectionLength,0);
     \end{tikzpicture}%
 }
 
 \newcommand{\cvsection}[1]{%
-	\setlength\TotalSectionLength{\linewidth}% Set the total line width
-	\settowidth{\SectionTitleLength}{\large {\textcolor{white}{\MakeUppercase{\textbf{#1}}}}}% Calculate the width of the section title
-	\addtolength\TotalSectionLength{-\SectionTitleLength}% Subtract the section title width from the total width
-	\addtolength\TotalSectionLength{-2.22221pt}% Modifier to remove overfull box warning
+	\@cvsectionwidth{\large {\textcolor{white}{\MakeUppercase{\textbf{#1}}}}}{-2.22221pt}% Modifier to remove overfull box warning
 	{\color{black!80} \large \colorbox{mainblue}{\textcolor{white}{\MakeUppercase{\textbf{#1}}}}  \rule[0.15\baselineskip]{\TotalSectionLength}{1pt}}% Print the title and auto-width rule
 }
 
+% Helper: declare a CV info field <name> as a one-argument macro that stores
+% its value and, once called, re-expands to that stored value with no
+% argument (this is what lets \makeprofile check e.g. \equal{\cvdate}{})
+\newcommand\@newcvfield[1]{%
+	\expandafter\newcommand\csname #1\endcsname[1]{%
+		\expandafter\renewcommand\csname #1\endcsname{##1}%
+	}%
+}
+
 % Define custom commands for CV info
-\newcommand{\cvdate}[1]{\renewcommand{\cvdate}{#1}}
-\newcommand{\cvsitebis}[1]{\renewcommand{\cvsitebis}{#1}}
-\newcommand{\cvmail}[1]{\renewcommand{\cvmail}{#1}}
-\newcommand{\cvnumberphone}[1]{\renewcommand{\cvnumberphone}{#1}}
-\newcommand{\cvaddress}[1]{\renewcommand{\cvaddress}{#1}}
-\newcommand{\cvsite}[1]{\renewcommand{\cvsite}{#1}}
-\newcommand{\aboutme}[1]{\renewcommand{\aboutme}{#1}}
-\newcommand{\profilepic}[1]{\renewcommand{\profilepic}{#1}}
-\newcommand{\cvname}[1]{\renewcommand{\cvname}{#1}}
-\newcommand{\cvjobtitle}[1]{\renewcommand{\cvjobtitle}{#1}}
+\@newcvfield{cvdate}
+\@newcvfield{cvsitebis}
+\@newcvfield{cvmail}
+\@newcvfield{cvnumberphone}
+\@newcvfield{cvaddress}
+\@newcvfield{cvsite}
+\@newcvfield{aboutme}
+\@newcvfield{profilepic}
+\@newcvfield{cvname}
+\@newcvfield{cvjobtitle}
+
+% Sidebar section labels (override with \renewcommand in the template to localize)
+\newcommand{\cvskillslabel}{Skills}
+\newcommand{\cvlanguageslabel}{Languages}
 
 % Command for printing the contact information icons
 \newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt, fill=mainblue,mainblue,text=white] (char) {#1};}}
 
-% Command for printing skill progress bars
-\newcommand\skills[1]{ 
-	\renewcommand{\skills}{
-		\begin{tikzpicture}
-			\foreach [count=\i] \x/\y in {#1}{
-				\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
-				\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
-				\node [above right] at (0,\i+0.4) {\x};
-			}
-		\end{tikzpicture}
-	}
+% Shared implementation for skill progress bars (used by \skills and \skillsbis)
+\newcommand\@cvskillbars[1]{
+	\begin{tikzpicture}
+		\foreach [count=\i] \x/\y in {#1}{
+			\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
+			\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
+			\node [above right] at (0,\i+0.4) {\x};
+		}
+	\end{tikzpicture}
 }
 
-% Command for printing skills text
-\newcommand\skillstext[1]{ 
-	\renewcommand{\skillstext}{
-		\begin{flushleft}
-			\foreach [count=\i] \x/\y in {#1}{ 
-				\x$ \star $\y
-			}
-		\end{flushleft}
-	}
+% Shared implementation for skill text (used by \skillstext and \skillstextbis)
+\newcommand\@cvskilltext[1]{
+	\begin{flushleft}
+		\foreach [count=\i] \x/\y in {#1}{
+			\x$ \star $\y
+		}
+	\end{flushleft}
 }
 
 % Command for printing skill progress bars
-\newcommand\skillsbis[1]{ 
-	\renewcommand{\skillsbis}{
-		\begin{tikzpicture}
-			\foreach [count=\i] \x/\y in {#1}{
-				\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
-				\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
-				\node [above right] at (0,\i+0.4) {\x};
-			}
-		\end{tikzpicture}
-	}
-}
+\newcommand\skills[1]{\renewcommand{\skills}{\@cvskillbars{#1}}}
 
 % Command for printing skills text
-\newcommand\skillstextbis[1]{ 
-	\renewcommand{\skillstextbis}{
-		\begin{flushleft}
-			\foreach [count=\i] \x/\y in {#1}{ 
-				\x$ \star $\y
-			}
-		\end{flushleft}
-	}
-}
+\newcommand\skillstext[1]{\renewcommand{\skillstext}{\@cvskilltext{#1}}}
+
+% Command for printing skill progress bars (second block, e.g. languages)
+\newcommand\skillsbis[1]{\renewcommand{\skillsbis}{\@cvskillbars{#1}}}
+
+% Command for printing skills text (second block, e.g. languages)
+\newcommand\skillstextbis[1]{\renewcommand{\skillstextbis}{\@cvskilltext{#1}}}
 
 %----------------------------------------------------------------------------------------
 %	 SIDEBAR LAYOUT
@@ -201,16 +201,16 @@
 
 		%------------------------------------------------
 
-		\profilesection{Compétences}
+		\profilesection{\cvskillslabel}
 
         \skills
 		\skillstext
 		\scriptsize
 
-			
+
 		%------------------------------------------------
-		
-		\profilesection{Langues}
+
+		\profilesection{\cvlanguageslabel}
 
 		\skillsbis
 		\skillstextbis
@@ -266,14 +266,8 @@
 %	 SMALL LIST ENVIRONMENT
 %----------------------------------------------------------------------------------------
 
-\setlength{\tabcolsep}{0pt}
-
-% New environment for the small list
-\newenvironment{twentyshort}{%
-	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}
-}{%
-	\end{tabular*}
-}
+% Same table layout as \twenty, just with a shorter per-item command
+\newenvironment{twentyshort}{\twenty}{\endtwenty}
 
 \newcommand{\twentyitemshort}[2]{%
 	#1&\parbox[t]{0.83\textwidth}{%
