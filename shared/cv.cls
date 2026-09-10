@@ -10,15 +10,11 @@
 \RequirePackage{tikz}
 \RequirePackage{xcolor}
 \RequirePackage[absolute,overlay]{textpos}
-\RequirePackage{ragged2e}
-\RequirePackage{etoolbox}
-\RequirePackage{ifmtarg}
 \RequirePackage{ifthen}
-\RequirePackage{pgffor}
 \RequirePackage{marvosym}
 \RequirePackage{parskip}
 \RequirePackage[utf8]{inputenc} % Required for inputting international characters
-\RequirePackage[default]{raleway}
+\RequirePackage[default,lf]{raleway} % lf = lining figures, so all digits share one uniform height
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
@@ -32,8 +28,6 @@
 \definecolor{sidecolor}{HTML}{E7E7E7}
 \definecolor{mainblue}{HTML}{0E5484}
 \definecolor{maingray}{HTML}{B9B9B9}
-
-\renewcommand*\familydefault{\sfdefault} % Force the sans-serif version of any font used
 
 %----------------------------------------------------------------------------------------
 %	 MISC CONFIGURATIONS
@@ -56,34 +50,37 @@
 \pgfmathsetlength{\imagescale}{\imagewidth/600}
 
 \newlength{\TotalSectionLength} % Define a new length to hold the remaining line width after the section title is printed
-\newlength{\SectionTitleLength} % Define a new length to hold the width of the section title
 
-% Shared width calculation for \profilesection and \cvsection: measures #1,
-% then sets \TotalSectionLength to the line width remaining after it (minus
-% the #2 fudge factor each rule needs to avoid an overfull box warning)
-\newcommand\@cvsectionwidth[2]{%
-	\settowidth{\SectionTitleLength}{#1}%
+% Shared rule-length calculation for \profilesection and \cvsection: given a
+% built box (already \sbox'd), sets \TotalSectionLength to the line width
+% remaining after its *actual measured width* (\wd), plus a small fixed
+% visual gap -- no guessed fudge factor, so it can't drift out of sync with
+% box padding again.
+\newcommand\@cvsectionrulewidth[1]{%
 	\setlength{\TotalSectionLength}{\linewidth}%
-	\addtolength{\TotalSectionLength}{-\SectionTitleLength}%
-	\addtolength{\TotalSectionLength}{#2}%
+	\addtolength{\TotalSectionLength}{-\wd#1}%
+	\addtolength{\TotalSectionLength}{-2pt}%
 }
 
-\newcommand{\profilesection}[1]{
-    \@cvsectionwidth{\Large #1}{-2pt} % optional small adjustment
-    \vspace{8pt}%
-    \noindent
-    \begin{tikzpicture}[baseline=(textnode.base)]
-        % Section title node
-        \node[draw=mainblue, line width=1pt, fill=white, inner sep=3pt] (textnode) {\Large \textcolor{black!80}{#1}};
-        % Black horizontal line starting at the right edge of the box
-        \draw[black!80, line width=1pt]
-            ([xshift=2pt]textnode.east) -- ++(\TotalSectionLength,0);
-    \end{tikzpicture}%
+\newsavebox{\@cvprofilebox}
+\newcommand{\profilesection}[1]{%
+	\vspace{8pt}%
+	\sbox{\@cvprofilebox}{\Large\setlength{\fboxrule}{1pt}\fcolorbox{mainblue}{white}{\textcolor{black!80}{#1}}}%
+	\@cvsectionrulewidth{\@cvprofilebox}%
+	% Same measured-box centering technique as \cvsection below, instead of
+	% a tikz node -- tikz nodes reserve a generic descender slot for their
+	% text regardless of whether the actual content has any descenders,
+	% which made text sit visibly high in the old box.
+	\noindent{\color{black!80}\usebox{\@cvprofilebox}\ \rule[\dimexpr(\ht\@cvprofilebox-\dp\@cvprofilebox)/2-0.5pt\relax]{\TotalSectionLength}{1pt}}%
 }
 
+\newsavebox{\@cvsectionbox}
 \newcommand{\cvsection}[1]{%
-	\@cvsectionwidth{\large {\textcolor{white}{\MakeUppercase{\textbf{#1}}}}}{-2.22221pt}% Modifier to remove overfull box warning
-	{\color{black!80} \large \colorbox{mainblue}{\textcolor{white}{\MakeUppercase{\textbf{#1}}}}  \rule[0.15\baselineskip]{\TotalSectionLength}{1pt}}% Print the title and auto-width rule
+	\sbox{\@cvsectionbox}{\large\colorbox{mainblue}{\textcolor{white}{\MakeUppercase{\textbf{#1}}}}}%
+	\@cvsectionrulewidth{\@cvsectionbox}%
+	% Center the rule on the box's actual measured height rather than a
+	% hard-coded offset, so it stays centered regardless of font metrics
+	{\color{black!80} \usebox{\@cvsectionbox}\ \rule[\dimexpr(\ht\@cvsectionbox-\dp\@cvsectionbox)/2-0.5pt\relax]{\TotalSectionLength}{1pt}}% Print the title and auto-width rule
 }
 
 % Helper: declare a CV info field <name> as a one-argument macro that stores
@@ -102,7 +99,6 @@
 \@newcvfield{cvnumberphone}
 \@newcvfield{cvaddress}
 \@newcvfield{cvsite}
-\@newcvfield{aboutme}
 \@newcvfield{profilepic}
 \@newcvfield{cvname}
 \@newcvfield{cvjobtitle}
@@ -111,8 +107,13 @@
 \newcommand{\cvskillslabel}{Skills}
 \newcommand{\cvlanguageslabel}{Languages}
 
-% Command for printing the contact information icons
-\newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt, fill=mainblue,mainblue,text=white] (char) {#1};}}
+% Command for printing the contact information icons. minimum size forces
+% every badge to the same fixed diameter regardless of which glyph is
+% inside -- different Marvosym icons have different natural proportions, so
+% without it each circle auto-sizes to its own glyph and they come out
+% visibly inconsistent. Uses an absolute unit (not em) so it doesn't scale
+% with whatever font size happens to be active when \icon is called.
+\newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt,minimum size=9pt, fill=mainblue,mainblue,text=white] (char) {#1};}}
 
 % Shared implementation for skill progress bars (used by \skills and \skillsbis)
 \newcommand\@cvskillbars[1]{
@@ -125,26 +126,19 @@
 	\end{tikzpicture}
 }
 
-% Shared implementation for skill text (used by \skillstext and \skillstextbis)
-\newcommand\@cvskilltext[1]{
-	\begin{flushleft}
-		\foreach [count=\i] \x/\y in {#1}{
-			\x$ \star $\y
-		}
-	\end{flushleft}
+% Helper: declare a skill-bar field <name> as a one-argument macro that
+% stores its skill list and, once called, re-expands to the rendered bars
+% -- same self-storing pattern as \@newcvfield, but rendered through
+% \@cvskillbars instead of returned as-is. This is what lets \skills and
+% \skillsbis share one implementation instead of two hand-duplicated macros.
+\newcommand\@newcvskills[1]{%
+	\expandafter\newcommand\csname #1\endcsname[1]{%
+		\expandafter\renewcommand\csname #1\endcsname{\@cvskillbars{##1}}%
+	}%
 }
 
-% Command for printing skill progress bars
-\newcommand\skills[1]{\renewcommand{\skills}{\@cvskillbars{#1}}}
-
-% Command for printing skills text
-\newcommand\skillstext[1]{\renewcommand{\skillstext}{\@cvskilltext{#1}}}
-
-% Command for printing skill progress bars (second block, e.g. languages)
-\newcommand\skillsbis[1]{\renewcommand{\skillsbis}{\@cvskillbars{#1}}}
-
-% Command for printing skills text (second block, e.g. languages)
-\newcommand\skillstextbis[1]{\renewcommand{\skillstextbis}{\@cvskilltext{#1}}}
+\@newcvskills{skills}    % primary skill bars (e.g. technical skills)
+\@newcvskills{skillsbis} % secondary skill bars (e.g. languages)
 
 %----------------------------------------------------------------------------------------
 %	 SIDEBAR LAYOUT
@@ -182,43 +176,28 @@
 
 		\renewcommand{\arraystretch}{1.6}
 		\begin{tabular}{p{0.5cm} @{\hskip 0.5cm}p{5cm}}
-			\ifthenelse{\equal{\cvdate}{}}{}{\textsc{\Large\icon{\Info}} & \cvdate\\}
-			\ifthenelse{\equal{\cvaddress}{}}{}{\textsc{\Large\icon{\Letter}} & \cvaddress\\}
-			\ifthenelse{\equal{\cvnumberphone}{}}{}{\textsc{\Large\icon{\Telefon}} & \cvnumberphone\\}
-			\ifthenelse{\equal{\cvsite}{}}{}{\textsc{\Large\icon{\Mundus}} & \cvsite\\}
-			\ifthenelse{\equal{\cvsitebis}{}}{}{\textsc{\Large\icon{\Info}} & \cvsitebis\\}
-			\ifthenelse{\equal{\cvmail}{}}{}{\textsc{\large\icon{@}} & \href{mailto:\cvmail}{\cvmail}}
+			\ifthenelse{\equal{\cvdate}{}}{}{\textsc{\Large\icon{\Info}\strut} & \cvdate\\}
+			\ifthenelse{\equal{\cvaddress}{}}{}{\textsc{\Large\icon{\Letter}\strut} & \cvaddress\\}
+			\ifthenelse{\equal{\cvnumberphone}{}}{}{\textsc{\Large\icon{\Telefon}\strut} & \cvnumberphone\\}
+			\ifthenelse{\equal{\cvsite}{}}{}{\textsc{\Large\icon{\Mundus}\strut} & \cvsite\\}
+			\ifthenelse{\equal{\cvsitebis}{}}{}{\textsc{\Large\icon{\Info}\strut} & \cvsitebis\\}
+			\ifthenelse{\equal{\cvmail}{}}{}{\textsc{\Large\icon{@}\strut} & \href{mailto:\cvmail}{\cvmail}}
 		\end{tabular}
-
-		%------------------------------------------------
-		
-		%\ifthenelse{\equal{\aboutme}{}}{}{
-		%	\profilesection{À propos}
-		%	\begin{flushleft}
-		%		\aboutme
-		%	\end{flushleft}
-		%}
 
 		%------------------------------------------------
 
 		\profilesection{\cvskillslabel}
 
         \skills
-		\skillstext
-		\scriptsize
-
 
 		%------------------------------------------------
 
 		\profilesection{\cvlanguageslabel}
 
 		\skillsbis
-		\skillstextbis
-		\scriptsize
 
-			
 		%------------------------------------------------
-			
+
 	\end{textblock}
 }
 
