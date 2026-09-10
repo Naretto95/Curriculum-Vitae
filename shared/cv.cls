@@ -51,11 +51,7 @@
 
 \newlength{\TotalSectionLength} % Define a new length to hold the remaining line width after the section title is printed
 
-% Shared rule-length calculation for \profilesection and \cvsection: given a
-% built box (already \sbox'd), sets \TotalSectionLength to the line width
-% remaining after its *actual measured width* (\wd), plus a small fixed
-% visual gap -- no guessed fudge factor, so it can't drift out of sync with
-% box padding again.
+% Sets \TotalSectionLength to \linewidth minus box #1's actual measured width, so the rule can't drift out of sync with the box's own padding.
 \newcommand\@cvsectionrulewidth[1]{%
 	\setlength{\TotalSectionLength}{\linewidth}%
 	\addtolength{\TotalSectionLength}{-\wd#1}%
@@ -67,10 +63,7 @@
 	\vspace{8pt}%
 	\sbox{\@cvprofilebox}{\Large\setlength{\fboxrule}{1pt}\fcolorbox{mainblue}{white}{\textcolor{black!80}{#1}}}%
 	\@cvsectionrulewidth{\@cvprofilebox}%
-	% Same measured-box centering technique as \cvsection below, instead of
-	% a tikz node -- tikz nodes reserve a generic descender slot for their
-	% text regardless of whether the actual content has any descenders,
-	% which made text sit visibly high in the old box.
+	% Same measured-box centering as \cvsection below, avoiding tikz nodes' generic descender padding that made text sit visibly high.
 	\noindent{\color{black!80}\usebox{\@cvprofilebox}\ \rule[\dimexpr(\ht\@cvprofilebox-\dp\@cvprofilebox)/2-0.5pt\relax]{\TotalSectionLength}{1pt}}%
 }
 
@@ -78,14 +71,11 @@
 \newcommand{\cvsection}[1]{%
 	\sbox{\@cvsectionbox}{\large\colorbox{mainblue}{\textcolor{white}{\MakeUppercase{\textbf{#1}}}}}%
 	\@cvsectionrulewidth{\@cvsectionbox}%
-	% Center the rule on the box's actual measured height rather than a
-	% hard-coded offset, so it stays centered regardless of font metrics
+	% Centers the rule on the box's measured height instead of a hard-coded offset, so it stays centered regardless of font metrics.
 	{\color{black!80} \usebox{\@cvsectionbox}\ \rule[\dimexpr(\ht\@cvsectionbox-\dp\@cvsectionbox)/2-0.5pt\relax]{\TotalSectionLength}{1pt}}% Print the title and auto-width rule
 }
 
-% Helper: declare a CV info field <name> as a one-argument macro that stores
-% its value and, once called, re-expands to that stored value with no
-% argument (this is what lets \makeprofile check e.g. \equal{\cvdate}{})
+% Declares CV field <name> as a macro storing its argument, then re-expanding to it with none -- lets \makeprofile check e.g. \equal{\cvdate}{}.
 \newcommand\@newcvfield[1]{%
 	\expandafter\newcommand\csname #1\endcsname[1]{%
 		\expandafter\renewcommand\csname #1\endcsname{##1}%
@@ -107,12 +97,7 @@
 \newcommand{\cvskillslabel}{Skills}
 \newcommand{\cvlanguageslabel}{Languages}
 
-% Command for printing the contact information icons. minimum size forces
-% every badge to the same fixed diameter regardless of which glyph is
-% inside -- different Marvosym icons have different natural proportions, so
-% without it each circle auto-sizes to its own glyph and they come out
-% visibly inconsistent. Uses an absolute unit (not em) so it doesn't scale
-% with whatever font size happens to be active when \icon is called.
+% Contact info icons; minimum size (absolute, not em) keeps every badge the same diameter regardless of glyph or active font size.
 \newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt,minimum size=9pt, fill=mainblue,mainblue,text=white] (char) {#1};}}
 
 % Shared implementation for skill progress bars (used by \skills and \skillsbis)
@@ -126,11 +111,7 @@
 	\end{tikzpicture}
 }
 
-% Helper: declare a skill-bar field <name> as a one-argument macro that
-% stores its skill list and, once called, re-expands to the rendered bars
-% -- same self-storing pattern as \@newcvfield, but rendered through
-% \@cvskillbars instead of returned as-is. This is what lets \skills and
-% \skillsbis share one implementation instead of two hand-duplicated macros.
+% Declares a skill-bar field <name> that stores its list and renders via \@cvskillbars -- lets \skills and \skillsbis share one implementation.
 \newcommand\@newcvskills[1]{%
 	\expandafter\newcommand\csname #1\endcsname[1]{%
 		\expandafter\renewcommand\csname #1\endcsname{\@cvskillbars{##1}}%
@@ -226,13 +207,13 @@
 \setlength{\tabcolsep}{0pt}
 
 % New environment for the long list
-\newenvironment{twenty}{%
+\newenvironment{cvlist}{%
 	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}
 }{%
 	\end{tabular*}
 }
 
-\newcommand{\twentyitem}[4]{%
+\newcommand{\cvitem}[4]{%
 	#1&\parbox[t]{0.83\textwidth}{%
 		\textcolor{gray}{\textbf{#2}}%*
 		\hfill%
@@ -245,10 +226,10 @@
 %	 SMALL LIST ENVIRONMENT
 %----------------------------------------------------------------------------------------
 
-% Same table layout as \twenty, just with a shorter per-item command
-\newenvironment{twentyshort}{\twenty}{\endtwenty}
+% Same table layout as \cvlist, just with a shorter per-item command
+\newenvironment{cvlistshort}{\cvlist}{\endcvlist}
 
-\newcommand{\twentyitemshort}[2]{%
+\newcommand{\cvitemshort}[2]{%
 	#1&\parbox[t]{0.83\textwidth}{%
 		\textbf{#2}%
 	}\\
@@ -258,6 +239,6 @@
 %	 MARGINS AND LINKS
 %----------------------------------------------------------------------------------------
 
-\RequirePackage[left=7.6cm,top=0cm,right=1cm,bottom=0cm,nohead,nofoot]{geometry}
+\RequirePackage[left=7.6cm,top=0cm,right=0.5cm,bottom=0cm,nohead,nofoot]{geometry}
 
 \RequirePackage{hyperref}

@@ -23,8 +23,8 @@
 \cvaddress{Eaubonne, France} % Short address/location, use \newline if more than 1 line is required
 \cvnumberphone{06 67 54 27 46} % Phone number
 \cvmail{narettolilian@hotmail.fr}
-\cvsite{\href{https://otteran.com/}{\texttt{otteran.com}} | \href{https://www.linkedin.com/in/lilian-naretto/}{\texttt{linkedin.com}}}
-\cvsitebis{\href{https://github.com/Naretto95}{\texttt{github.com/Naretto95}}}
+\cvsite{\href{https://otteran.com/}{\textcolor{mainblue}{otteran.com}} | \href{https://www.linkedin.com/in/lilian-naretto/}{\textcolor{mainblue}{linkedin.com}}}
+\cvsitebis{\href{https://github.com/Naretto95}{\textcolor{mainblue}{github.com/Naretto95}}}
 
 %----------------------------------------------------------------------------------------
 
@@ -35,40 +35,16 @@
 %----------------------------------------------------------------------------------------
 
 % Skill bar section, each skill must have a value between 0 an 6 (float)
-\skills{{Java/4},{Powershell \& DSC/5},{Ansible \& Bash /5.5},{Terraform/5},{HTML \& CSS/5},{C \& C++/4},{Python \& Django/5},{Git \& Gitlab/5}, {Docker \& LXC/5}, {ESXI \& Proxmox/5}}
+% Note: bars render bottom-to-top, so this list is written in reverse of
+% the intended on-page order (last item here = top of the stack)
+\skills{{C \& C++/4},{Java/4},{HTML \& CSS/5},{Python \& Django/5},{ESXi \& Proxmox/5},{Docker \& LXC/5},{Git \& GitLab/5},{PowerShell \& DSC/5},{Terraform/5},{Ansible \& Bash/5.5}}
 
 %------------------------------------------------
 
-\skillsbis{{Anglais/5},{Espagnol/2.5}}
+\skillsbis{{Espagnol/2.5},{Anglais/5}}
 %----------------------------------------------------------------------------------------
 
 \makeprofile % Print the sidebar
-
-%----------------------------------------------------------------------------------------
-%	 EDUCATION
-%----------------------------------------------------------------------------------------
-
-\cvsection{Formation}
-
-\begin{twenty} % Environment for a list with descriptions
-	\twentyitem{2017-2022}{École d'ingénieurs}{CY Tech}{Informatique - Option cybersécurité | Classe préparatoire intégrée.}
-	\twentyitem{2017-2020}{Licence en informatique}{CY Cergy Paris Université}{Licence obtenue en double diplôme.}
-	\twentyitem{2015-2017}{Baccalauréat série S}{Lycée Jean Jaurès d'Argenteuil}{Spécialité ISN (Informatique et Sciences du Numérique).}
-	%\twentyitem{<dates>}{<title>}{<location>}{<description>}
-\end{twenty}
-
-%----------------------------------------------------------------------------------------
-%	 PROJETS
-%----------------------------------------------------------------------------------------
-
-\cvsection{Projets}
-
-\begin{twenty} % Environment for a short list with no descriptions
-	\twentyitem{2025-20XX}{HomeLab - Ansible/Gitlab}{}{Projet de déploiement complet d'un HomeLab personnel.}
-	\twentyitem{2022-2023}{OtterVault - Django}{Otteran}{Outil de gestion d'actifs avec détection de vulnérabilités, alertes, rapports et analyses pour renforcer la sécurité logicielle.\\ \href{https://ottervault.otteran.com/}{\texttt{ottervault.otteran.com}}}
-	\twentyitem{2015-20XX}{Autres}{}{Voir sur mon \href{https://otteran.com/}{\texttt{site web}} / \href{https://github.com/Naretto95}{\texttt{github}}.}
-	%\twentyitemshort{<dates>}{<title/description>}
-\end{twenty}
 
 %----------------------------------------------------------------------------------------
 %	 EXPÉRIENCES PROFESSIONNELLES
@@ -76,25 +52,51 @@
 
 \cvsection{Expériences professionnelles}
 
-\begin{twenty} % Environment for a list with descriptions
-    \twentyitem{08/01/24}{Ingénieur DevSecOps IT (Actuel)}{Thales}{- Mettre en œuvre l’automatisation de l'infrastructure IT.\\
-    - Déploiement de l'infrastructure via divers outils : Powershell DSC, Terraform, Ansible, Bash, Gitlab, Docker,  etc ...\\
-    - Déploiement automatisé d’environnements Windows et Linux complets incluant Active Directory (AD), GPO, DNS, DNS relais, services d’authentification RADIUS/Proxy RADIUS, etc...\\
-    - Provisionnement et gestion des machines virtuelles avec Terraform sur Vsphere et Proxmox dans une approche Infrastructure as Code (IaC).\\
+\begin{cvlist} % Environment for a list with descriptions
+    \cvitem{08/01/24}{Ingénieur DevSecOps IT (Actuel)}{Thales}{- Mise en œuvre de l'automatisation de l'infrastructure IT.\\
+    - Déploiement de l'infrastructure via divers outils : PowerShell DSC, Terraform, Ansible, Bash, GitLab, Docker, etc.\\
+    - Déploiement automatisé d'environnements Windows et Linux complets incluant Active Directory (AD), GPO, DNS, DNS relais, services d'authentification RADIUS/Proxy RADIUS, etc.\\
+    - Provisionnement et gestion des machines virtuelles avec Terraform sur vSphere et Proxmox dans une approche Infrastructure as Code (IaC).\\
     - Responsable du bon fonctionnement de l'infrastructure en production.\\
-    - Conception et développement d’automatisations avec Ansible pour le déploiement complet d’infrastructures IT.\\
-    - Mise en place d’infrastructures cibles complètes et reproductibles adaptées aux besoins des projets.\\
-    - Déploiement automatisé via Gitlab et pipelines CI/CD sous docker pour assurer des mises en production rapides et fiables. }
-    \twentyitem{2022-2023}{Fondateur | auto-entrepreneur (1 ans 3 mois)}{Otteran}{- Dirige une entreprise de développement de logiciels en solo.\\
-    - Projet phare : OtterVault, pour la détection des vulnérabilités de sécurité dans les assets informatiques et logiciels).\\
+    - Conception et développement d'automatisations avec Ansible pour le déploiement complet d'infrastructures IT.\\
+    - Mise en place d'infrastructures cibles complètes et reproductibles adaptées aux besoins des projets.\\
+    - Déploiement automatisé via GitLab et pipelines CI/CD sous Docker pour assurer des mises en production rapides et fiables.}
+    \cvitem{2022-2023}{Fondateur | auto-entrepreneur (1 an 3 mois)}{Otteran}{- Dirigé une entreprise de développement de logiciels en solo.\\
+    - Projet phare : OtterVault, pour la détection des vulnérabilités de sécurité dans les assets informatiques et logiciels.\\
     - Responsable du déploiement total de OtterVault.}
-    \twentyitem{2021-2022}{Ingénieur DevSecOps | cybersécurité (1 ans 6 mois)}{Idemia}{- Création d'une solution de référencement des éléments logiciels et matériels installés sur les projets à l'aide du framework Django (nom de code : Minotaur).\\
-    - Utilisation des outils DevSecOps, mettre en place le hardening, et faire des tests d'intrusion (pentest) sur Minotaur.\\
-    - Déploiement continu de l'application via divers outils : Jenkins, Nginx... et analyse de code via SonarQube et Nexus IQ.\\
-    - Mise en place complète de la base de donnée (postgreSQL).\\
+    \cvitem{2021-2022}{Ingénieur DevSecOps | cybersécurité (1 an 6 mois)}{Idemia}{- Création d'une solution de référencement des éléments logiciels et matériels installés sur les projets à l'aide du framework Django (nom de code : Minotaur).\\
+    - Utilisation des outils DevSecOps, mise en place du hardening et réalisation de tests d'intrusion (pentest) sur Minotaur.\\
+    - Déploiement continu de l'application via divers outils : Jenkins, Nginx, etc., et analyse de code via SonarQube et Nexus IQ.\\
+    - Mise en place complète de la base de données (PostgreSQL).\\
     - Création d'un AD FS, intégration de Minotaur dans l'AD d'Idemia.}
-	%\twentyitem{<dates>}{<title>}{<location>}{<description>}
-\end{twenty}
+	%\cvitem{<dates>}{<title>}{<location>}{<description>}
+\end{cvlist}
+
+%----------------------------------------------------------------------------------------
+%	 EDUCATION
+%----------------------------------------------------------------------------------------
+
+\cvsection{Formation}
+
+\begin{cvlist} % Environment for a list with descriptions
+	\cvitem{2017-2022}{École d'ingénieurs}{CY Tech}{Informatique - Option cybersécurité | Classe préparatoire intégrée.}
+	\cvitem{2017-2020}{Licence en informatique}{CY Cergy Paris Université}{Licence obtenue en double diplôme.}
+	\cvitem{2015-2017}{Baccalauréat série S}{Lycée Jean Jaurès d'Argenteuil}{Spécialité ISN (Informatique et Sciences du Numérique).}
+	%\cvitem{<dates>}{<title>}{<location>}{<description>}
+\end{cvlist}
+
+%----------------------------------------------------------------------------------------
+%	 PROJETS
+%----------------------------------------------------------------------------------------
+
+\cvsection{Projets}
+
+\begin{cvlist} % Environment for a short list with no descriptions
+	\cvitem{2025-20XX}{HomeLab - Ansible/Gitlab}{}{Projet de déploiement complet d'un HomeLab personnel.}
+	\cvitem{2022-2023}{OtterVault - Django}{Otteran}{Voir « Fondateur » dans Expériences professionnelles.\\ \href{https://ottervault.otteran.com/}{\textcolor{mainblue}{ottervault.otteran.com}}}
+	\cvitem{2015-20XX}{Autres}{}{Voir sur mon \href{https://otteran.com/}{\textcolor{mainblue}{site web}} / \href{https://github.com/Naretto95}{\textcolor{mainblue}{GitHub}}.}
+	%\cvitemshort{<dates>}{<title/description>}
+\end{cvlist}
 
 %----------------------------------------------------------------------------------------
 %	 CERTIFICATIONS
@@ -102,10 +104,10 @@
 
 \cvsection{Certifications}
 
-\begin{twenty} % Environment for a short list with no descriptions
-    \twentyitem{2022}{TOEIC - Listening and Reading (910)}{ETS}{\href{https://drive.google.com/file/d/1s-YZ9WWBkpB6frxmiLPDZszAGn-aqTe3/view?usp=drive_link}{\texttt{Toeic Score}}}
-    \twentyitem{2022}{Microsoft Certified: Security, Compliance}{Microsoft}{\href{https://www.credly.com/badges/ccb93853-5ae8-42b0-a3b2-0beb00b1491d?source=linked_in_profile}{\texttt{Credly.com}}}
-\end{twenty}
+\begin{cvlist} % Environment for a short list with no descriptions
+    \cvitem{2022}{TOEIC - Listening and Reading (910)}{ETS}{\href{https://drive.google.com/file/d/1s-YZ9WWBkpB6frxmiLPDZszAGn-aqTe3/view?usp=drive_link}{\textcolor{mainblue}{TOEIC Score}}}
+    \cvitem{2022}{Microsoft Certified: Security, Compliance}{Microsoft}{\href{https://www.credly.com/badges/ccb93853-5ae8-42b0-a3b2-0beb00b1491d?source=linked_in_profile}{\textcolor{mainblue}{Credly.com}}}
+\end{cvlist}
 
 %----------------------------------------------------------------------------------------
 
