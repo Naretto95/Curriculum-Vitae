@@ -206,33 +206,25 @@
 
 \setlength{\tabcolsep}{0pt}
 
-% New environment for the long list
-\newenvironment{cvlist}{%
-	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll}
-}{%
-	\end{tabular*}
-}
+% Plain paragraph list -- each \cvitem is a bold title with company and
+% date grouped together, right-aligned on the same line, then the
+% description, using the full column width
+\newenvironment{cvlist}{\par}{\par}
 
 \newcommand{\cvitem}[4]{%
-	#1&\parbox[t]{0.83\textwidth}{%
-		\textcolor{gray}{\textbf{#2}}%*
-		\hfill%
-		{\footnotesize\textcolor{gray}{\textbf{#3}}}\\%
-		#4\vspace{\parsep}%
-	}\\
+	\textcolor{gray}{\textbf{#2}}\hfill{\footnotesize\ifthenelse{\equal{#3}{}}{\textcolor{gray}{#1}}{\scriptsize\textcolor{gray}{\textbf{\MakeUppercase{#3}}}\ \footnotesize\textcolor{gray}{\textperiodcentered}\ \textcolor{gray}{#1}}}\\%
+	{\small #4}\par\vspace{\parsep}%
 }
 
 %----------------------------------------------------------------------------------------
 %	 SMALL LIST ENVIRONMENT
 %----------------------------------------------------------------------------------------
 
-% Same table layout as \cvlist, just with a shorter per-item command
+% Same layout as \cvlist, just with a shorter per-item command
 \newenvironment{cvlistshort}{\cvlist}{\endcvlist}
 
 \newcommand{\cvitemshort}[2]{%
-	#1&\parbox[t]{0.83\textwidth}{%
-		\textbf{#2}%
-	}\\
+	\textbf{#2}\hfill{\footnotesize\textcolor{gray}{#1}}\par\vspace{\parsep}%
 }
 
 %----------------------------------------------------------------------------------------
