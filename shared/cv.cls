@@ -63,6 +63,7 @@
 	\vspace{8pt}%
 	\sbox{\@cvprofilebox}{\Large\setlength{\fboxrule}{1pt}\fcolorbox{mainblue}{white}{\textcolor{black!80}{#1}}}%
 	\@cvsectionrulewidth{\@cvprofilebox}%
+	\addtolength{\TotalSectionLength}{-0.5cm}% extra right margin so the rule doesn't reach the sidebar's edge
 	% Same measured-box centering as \cvsection below, avoiding tikz nodes' generic descender padding that made text sit visibly high.
 	\noindent{\color{black!80}\usebox{\@cvprofilebox}\ \rule[\dimexpr(\ht\@cvprofilebox-\dp\@cvprofilebox)/2-0.5pt\relax]{\TotalSectionLength}{1pt}}%
 }
@@ -100,11 +101,11 @@
 % Contact info icons; minimum size (absolute, not em) keeps every badge the same diameter regardless of glyph or active font size.
 \newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt,minimum size=9pt, fill=mainblue,mainblue,text=white] (char) {#1};}}
 
-% Shared implementation for skill progress bars (used by \skills and \skillsbis)
+% Skill progress bars (used by \skills and \skillsbis); track is 5.5cm, matching the recalibrated 0-5.5 scale so the top skill still leaves headroom.
 \newcommand\@cvskillbars[1]{
 	\begin{tikzpicture}
 		\foreach [count=\i] \x/\y in {#1}{
-			\draw[fill=maingray,maingray] (0,\i) rectangle (6,\i+0.4);
+			\draw[fill=maingray,maingray] (0,\i) rectangle (5.5,\i+0.4);
 			\draw[fill=white,mainblue](0,\i) rectangle (\y,\i+0.4);
 			\node [above right] at (0,\i+0.4) {\x};
 		}
@@ -206,9 +207,7 @@
 
 \setlength{\tabcolsep}{0pt}
 
-% Plain paragraph list -- each \cvitem is a bold title with company and
-% date grouped together, right-aligned on the same line, then the
-% description, using the full column width
+% Plain paragraph list -- each \cvitem is a bold title with company and date grouped together, right-aligned on the same line, then the description.
 \newenvironment{cvlist}{\par}{\par}
 
 \newcommand{\cvitem}[4]{%
@@ -231,6 +230,6 @@
 %	 MARGINS AND LINKS
 %----------------------------------------------------------------------------------------
 
-\RequirePackage[left=7.6cm,top=0cm,right=0.5cm,bottom=0cm,nohead,nofoot]{geometry}
+\RequirePackage[left=7.2cm,top=0cm,right=0.5cm,bottom=0cm,nohead,nofoot]{geometry}
 
 \RequirePackage{hyperref}
