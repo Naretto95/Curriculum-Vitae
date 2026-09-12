@@ -13,6 +13,7 @@
 \RequirePackage{ifthen}
 \RequirePackage{marvosym}
 \RequirePackage{parskip}
+\RequirePackage{enumitem} % compact, hanging-indented bullet lists for entry descriptions
 \RequirePackage[utf8]{inputenc} % Required for inputting international characters
 \RequirePackage[default,lf]{raleway} % lf = lining figures, so all digits share one uniform height
 
@@ -28,6 +29,7 @@
 \definecolor{sidecolor}{HTML}{E7E7E7}
 \definecolor{mainblue}{HTML}{0E5484}
 \definecolor{maingray}{HTML}{B9B9B9}
+\definecolor{statusgreen}{HTML}{2FAE68} % "current" status dot, CI-pass style
 
 %----------------------------------------------------------------------------------------
 %	 MISC CONFIGURATIONS
@@ -206,6 +208,15 @@
 %----------------------------------------------------------------------------------------
 
 \setlength{\tabcolsep}{0pt}
+
+% Compact bullet style for entry descriptions, with a real hanging indent so wrapped lines align under the text instead of the margin.
+\setlist[itemize]{leftmargin=1.1em, label=-, labelsep=0.4em, itemsep=0pt, topsep=0pt, parsep=0pt, partopsep=0pt}
+
+% Use in place of itemize for a \cvitem's bullets: starting a list mid-paragraph (right after the title/date line) triggers an implicit \parskip-sized gap that the list's own topsep can't cancel, so this pulls it back up.
+\newenvironment{cvbullets}{\vspace{-10pt}\begin{itemize}}{\end{itemize}}
+
+% Small CI-status-style dot for a \cvitem's title, e.g. \cvdot{statusgreen} for a current role, \cvdot{maingray} for a completed one.
+\newcommand{\cvdot}[1]{\raisebox{0.03em}{\tikz{\fill[#1] circle (3pt);}}}
 
 % Plain paragraph list -- each \cvitem is a bold title with company and date grouped together, right-aligned on the same line, then the description.
 \newenvironment{cvlist}{\par}{\par}
