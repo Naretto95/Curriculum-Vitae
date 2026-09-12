@@ -14,6 +14,7 @@
 \RequirePackage{marvosym}
 \RequirePackage{parskip}
 \RequirePackage{enumitem} % compact, hanging-indented bullet lists for entry descriptions
+\RequirePackage{qrcode} % draws the sidebar QR code natively in TikZ, no external image needed
 \RequirePackage[utf8]{inputenc} % Required for inputting international characters
 \RequirePackage[default,lf]{raleway} % lf = lining figures, so all digits share one uniform height
 
@@ -99,6 +100,7 @@
 % Sidebar section labels (override with \renewcommand in the template to localize)
 \newcommand{\cvskillslabel}{Skills}
 \newcommand{\cvlanguageslabel}{Languages}
+\newcommand{\cvportfoliolabel}{Portfolio}
 
 % Contact info icons; minimum size (absolute, not em) keeps every badge the same diameter regardless of glyph or active font size.
 \newcommand*\icon[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt,minimum size=9pt, fill=mainblue,mainblue,text=white] (char) {#1};}}
@@ -167,6 +169,15 @@
 			\ifthenelse{\equal{\cvsitebis}{}}{}{\textsc{\Large\icon{\Info}\strut} & \cvsitebis\\}
 			\ifthenelse{\equal{\cvmail}{}}{}{\textsc{\Large\icon{@}\strut} & \href{mailto:\cvmail}{\cvmail}}
 		\end{tabular}
+
+		%------------------------------------------------
+
+		\profilesection{\cvportfoliolabel}
+
+		\vspace{6pt}
+		\begin{center}
+			\qrcode[height=2.2cm]{https://otteran.com/}
+		\end{center}
 
 		%------------------------------------------------
 
