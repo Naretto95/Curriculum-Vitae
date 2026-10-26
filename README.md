@@ -30,9 +30,15 @@ From the repo root, in PowerShell:
 .\compile.ps1
 ```
 
-This compiles both `eng/template.tex` and `fr/template.tex`, leaving `template.pdf` in each directory, and cleans up intermediate build files (`.aux`, `.log`, `.out`, `.synctex`).
+This compiles both `eng/template.tex` and `fr/template.tex`, leaving a small `template.pdf` in each directory (about 170 KB instead of about 6 MB, same visual render). The profile photo is downsampled in a temporary copy before compiling, so your source files and original photo are never modified, and no build files are left behind.
 
-To compile just one manually:
+The photo size is tunable if you want a smaller or sharper result (defaults shown):
+
+```powershell
+.\compile.ps1 -ImageWidth 800 -ImageQuality 85
+```
+
+To compile just one manually (full-size photo, so a much bigger PDF):
 
 ```powershell
 cd eng
